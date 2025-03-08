@@ -37,11 +37,29 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 20px;
-      height: 20px;
+      width: 40px;
+      height: 40px;
+      pointer-events: none; /* Чтобы крестик не мешал взаимодействию */
+    }
+    #crosshair::before,
+    #crosshair::after {
+      content: '';
+      position: absolute;
       background-color: red;
-      border-radius: 50%;
-      border: 1px solid white; /* Тонкая граница */
+    }
+    #crosshair::before {
+      width: 3px; /* Толщина вертикальной линии */
+      height: 40px; /* Длина вертикальной линии */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #crosshair::after {
+      width: 40px; /* Длина горизонтальной линии */
+      height: 3px; /* Толщина горизонтальной линии */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
     #overlay {
       position: absolute;
@@ -57,20 +75,20 @@
       background-color: rgba(0, 0, 0, 0.7);
       color: yellow;
       padding: 5px 10px;
-      font-size: 14px;
+      font-size: 12px; /* Уменьшенный размер текста */
       border-radius: 5px;
       max-width: 45%; /* Ограничение ширины */
       word-wrap: break-word; /* Автоматический перенос строк */
       white-space: pre-wrap; /* Перенос строк с сохранением форматирования */
     }
     #capture-btn {
-      margin-top: 20px;
-      padding: 15px 30px;
-      font-size: 16px;
+      margin-top: 10px; /* Уменьшенный отступ */
+      padding: 10px 20px; /* Уменьшенные размеры кнопки */
+      font-size: 14px; /* Уменьшенный размер текста */
       background-color: #007bff; /* Синий цвет */
       color: white; /* Белый текст */
       border: none;
-      border-radius: 50px;
+      border-radius: 30px; /* Более компактная кнопка */
       cursor: pointer;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
@@ -89,15 +107,16 @@
       align-items: center;
       width: 100%;
       max-width: 400px;
-      margin-top: 20px;
+      margin-top: 10px; /* Уменьшенный отступ */
     }
     /* Поле для описания */
     #description-input {
-      padding: 10px;
-      width: 80%;
+      padding: 8px; /* Уменьшенный внутренний отступ */
+      width: 90%; /* Уменьшенная ширина */
+      font-size: 12px; /* Уменьшенный размер текста */
       border: 1px solid #ccc;
       border-radius: 5px;
-      margin-bottom: 20px; /* Отступ между описанием и кнопкой */
+      margin-bottom: 10px; /* Уменьшенный отступ */
     }
   </style>
 </head>
@@ -138,7 +157,7 @@
     async function setupCamera() {
       try {
         const constraints = {
-          video: { width: 1080, height: 1920 } // Разрешение как в Instagram Stories
+          video: { width: 1080, height: 1920 } // Вертикальное разрешение
         };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         cameraFeed.srcObject = stream;
@@ -201,12 +220,12 @@
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
       ctx.strokeStyle = 'red';
-      ctx.lineWidth = 1; // Тонкая линия
+      ctx.lineWidth = 3; // Жирные линии
       ctx.beginPath();
-      ctx.moveTo(centerX - 10, centerY); // Горизонтальная линия
-      ctx.lineTo(centerX + 10, centerY);
-      ctx.moveTo(centerX, centerY - 10); // Вертикальная линия
-      ctx.lineTo(centerX, centerY + 10);
+      ctx.moveTo(centerX - 20, centerY); // Горизонтальная линия
+      ctx.lineTo(centerX + 20, centerY);
+      ctx.moveTo(centerX, centerY - 20); // Вертикальная линия
+      ctx.lineTo(centerX, centerY + 20);
       ctx.stroke();
 
       // Добавляем описание в левый нижний угол
